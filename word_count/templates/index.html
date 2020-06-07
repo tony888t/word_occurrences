@@ -1,4 +1,29 @@
-{% for key, value in words.items %}
-    {{key}} - {{value}}<br>
-{% endfor %}
+<h2>Keyword</h2>
+
+<table>
+    <tr>
+        <th>Word</th>
+        <th>Count</th>
+        <th>File</th>
+        <th>Sentence</th>
+    </tr>
+    {% for key, value in words.items %}
+        <tr>
+            <td>{{key}}</td>
+            {% for work_key, word_value in value.items %}
+                {% if work_key != 'count' %}
+                    <td>
+                    {% for item in word_value %}
+                        {{item}}<br>
+                    {% endfor %}
+                    </td>
+                {% else %}
+                    <td>{{word_value}}</td>
+                {% endif %}
+            {% endfor %}
+        </tr> 
+    {% endfor %}
+</table>
+
+
 
