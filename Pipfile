@@ -11,9 +11,6 @@ ipdb = "*"
 [packages]
 django = "*"
 gensim = "*"
-numpy = "*"
-smart-open = "*"
-rake-nltk = "*"
 
 [requires]
 python_version = "3.8"
