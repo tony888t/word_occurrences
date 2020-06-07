@@ -6,13 +6,11 @@
 `pipenv install`
 4. Activate environment
 `pipenv shell`
-5. cd in django project directory
-`cd bink`
-6. Run project locally
+5. Run project locally
 `python manage.py runserver 0:8000`
 This will warn you about unapplied migrations but for this example it's not needed.
-7. Navigate to `localhost:8000/`
-8. Click on links to display the day on the page and console.
+6. Navigate to `localhost:8000/`
+7. Click on links to display the day on the page and console.
 
 
 ## Running tests
@@ -32,4 +30,3 @@ This will warn you about unapplied migrations but for this example it's not need
 - Looked at summarising doc and then extract keywords but this changes the keywords so this was not an option.
 - When extracting keywords it add suffixes to workd for example `let` and `letting`, even though `letting` is not present in the document. Need to find a way to avoid this with gensim.
 - Still need to learn more about word scoring with `gensim`.
- 
