@@ -1,29 +1,39 @@
-<h2>Keyword</h2>
-
-<table>
-    <tr>
-        <th>Word</th>
-        <th>Count</th>
-        <th>File</th>
-        <th>Sentence</th>
-    </tr>
-    {% for key, value in words.items %}
-        <tr>
-            <td>{{key}}</td>
-            {% for work_key, word_value in value.items %}
-                {% if work_key != 'count' %}
-                    <td>
-                    {% for item in word_value %}
-                        {{item}}<br>
+<html>
+    <head>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Keyword</h2>
+        <table>
+            <tr>
+                <th>Word</th>
+                <th>Count</th>
+                <th>File</th>
+                <th>Sentence</th>
+            </tr>
+            {% for key, value in words.items %}
+                <tr>
+                    <td>{{key}}</td>
+                    {% for work_key, word_value in value.items %}
+                        {% if work_key != 'count' %}
+                            <td>
+                                <ul>
+                            {% for item in word_value %}
+                                <li>{{item}}</li>
+                            {% endfor %}
+                                </ul>
+                            </td>
+                        {% else %}
+                            <td>{{word_value}}</td>
+                        {% endif %}
                     {% endfor %}
-                    </td>
-                {% else %}
-                    <td>{{word_value}}</td>
-                {% endif %}
+                </tr> 
             {% endfor %}
-        </tr> 
-    {% endfor %}
-</table>
-
-
-
+        </table>
+    </body>
+</html>
