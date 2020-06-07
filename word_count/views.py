@@ -20,7 +20,7 @@ class Words(View):
         if not file_path:
             file_path = os.path.join(settings.BASE_DIR, 'word_count/default_docs')
 
-        documents = [doc for doc in glob.glob(file_path + f"**/*.{file_type}", recursive=True)] 
+        documents = [doc for doc in glob.glob(file_path + f"**/*.{file_type}", recursive=True)]
 
         for doc in documents:
             with open(doc, 'r') as doc_file:
@@ -49,6 +49,5 @@ class Words(View):
 
     def get(self, request):
         words = self.process_files()
-
 
         return render(request, 'index.html', {'words': words})
