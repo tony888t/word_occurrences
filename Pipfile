@@ -6,10 +6,14 @@ verify_ssl = true
 [dev-packages]
 pytest-django = "*"
 flake8 = "*"
+ipdb = "*"
 
 [packages]
 django = "*"
-nltk = "*"
+gensim = "*"
+numpy = "*"
+smart-open = "*"
+rake-nltk = "*"
 
 [requires]
 python_version = "3.8"

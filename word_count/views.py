@@ -1,41 +1,51 @@
+import glob
 import os
 import re
-import string
-from collections import Counter
-from pathlib import Path
+from collections import OrderedDict
+
+from gensim.summarization import keywords
 
 from django.conf import settings
 from django.shortcuts import render
 from django.views import View
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-
-from .models import Word
 
 
 class Words(View):
-    def remove_stop_words(self, words):
-        # Remove punctuation
-        punct_free_text = ''.join(text for text in words if text not in string.punctuation)
-
-        stop_words = set(stopwords.words('english'))
-        word_tokens = word_tokenize(punct_free_text)
-
-        return [word for word in word_tokens if words not in stop_words]
+    def extract_keywords(self, text):
+        return keywords(text, split=True, ratio=0.1)
 
     def process_files(self, file_path=None, file_type='txt'):
+        counter = {}
         # Fallback
         if not file_path:
             file_path = os.path.join(settings.BASE_DIR, 'word_count/default_docs')
 
-        pathlist = Path(file_path).glob(f'**/*.{file_type}')
+        documents = [doc for doc in glob.glob(settings.BASE_DIR + f"**/*.{file_type}", recursive=True)] 
 
-        for path in pathlist:
-            with open(path, 'r') as doc:
-                filtered_text = self.remove_stop_words(doc.read())
-                for text in filtered_text:
+        for doc in documents:
+            with open(doc, 'r') as doc_file:
+                file_text = doc_file.read().replace('\n', '')
+                file_keywords = self.extract_keywords(file_text)
 
-                
+                for word in file_keywords:
+                    # TODO: Need to find out why gensim keyword extracts and adds suffixs to words. let and letting
+                    word_count = file_text.lower().count(word.lower())
+                    if word_count > 0:
+                        if counter.get(word):
+                            counter[word]['count'] += word_count
+                            counter[word]['sentence'] + re.findall(rf"([^.]*?{word}[^.]*\.)", file_text.lower())
+
+                        else:
+                            counter[word] = {
+                                'count': word_count,
+                                'sentence': re.findall(rf"([^. ]*?{word}[^.]*\.)", file_text.lower())
+                            }
+                    else:
+                        continue
+
+        return OrderedDict(sorted(counter.items()))
 
     def get(self, request):
-        pass
+        words = self.process_files()
+
+        return render(request, 'index.html', {'words': words})
