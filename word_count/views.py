@@ -33,11 +33,13 @@ class Words(View):
                     if word_count > 0:
                         if counter.get(word):
                             counter[word]['count'] += word_count
+                            counter[word]['files'].append(doc)
                             counter[word]['sentence'] + re.findall(rf"([^.]*?{word}[^.]*\.)", file_text.lower())
 
                         else:
                             counter[word] = {
                                 'count': word_count,
+                                'files': [doc],
                                 'sentence': re.findall(rf"([^. ]*?{word}[^.]*\.)", file_text.lower())
                             }
                     else:

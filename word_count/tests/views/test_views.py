@@ -53,3 +53,12 @@ def test_where_word_is_used(sample_doc, expected_extracted_keywords):
 
     assert len(result['machine']['sentence']) == 2
     assert result['machine']['sentence'][1] == 'machine learning is cool.'
+
+
+def test_which_file_word_is_used(sample_doc, expected_extracted_keywords):
+    words = Words()
+    result = words.process_files(file_path=settings.BASE_DIR)
+
+    os.remove('test.txt')
+
+    assert result['machine']['files'][0] == os.path.join(settings.BASE_DIR, 'test.txt')
